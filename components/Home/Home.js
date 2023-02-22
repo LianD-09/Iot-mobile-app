@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React from 'react';
+import React, { useState } from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {View, Text, Image, StyleSheet} from 'react-native';
 import AccessHistoryScreen from '../userAccessNotification/AccessHistoryScreen';
@@ -14,6 +14,7 @@ export default function Home() {
     <Tab.Navigator
       screenOptions={{
         tabBarShowLabel: false,
+        tabBarHideOnKeyboard: true,
       }}>
       <Tab.Screen
         name="Access History"
@@ -22,7 +23,7 @@ export default function Home() {
           showLabel: false,
           headerShown: false,
           tabBarIcon: ({focused}) => (
-            <View style={styles.tabContainer}>
+            <View style={[styles.tabContainer, {flex : 1}]}>
               <Image
                 source={require('../../assets/Home/History.png')}
                 resizeMode="contain"
@@ -57,7 +58,7 @@ export default function Home() {
           headerShown: false,
           // tabBarStyle: {display: 'none'},
           tabBarIcon: ({focused}) => (
-            <View style={styles.tabContainer}>
+            <View style={[styles.tabContainer, {flex : 1}]}>
               <Image
                 source={require('../../assets/Home/QRCode.png')}
                 resizeMode="contain"
@@ -73,7 +74,7 @@ export default function Home() {
               </Text>
             </View>
           ),
-          title: 'City news', //Set Header Title
+          title: 'Create QRCode', //Set Header Title
           headerStyle: {
             backgroundColor: '#3A5BB3', //Set Header color
           },
@@ -92,7 +93,7 @@ export default function Home() {
           headerShown: false,
           // tabBarStyle: {display: 'none'},
           tabBarIcon: ({focused}) => (
-            <View style={styles.tabContainer}>
+            <View style={[styles.tabContainer, {flex : 1}]}>
               <Image
                 source={require('../../assets/Home/User.png')}
                 resizeMode="contain"

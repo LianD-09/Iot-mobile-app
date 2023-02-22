@@ -1,33 +1,42 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import {useSelector} from 'react-redux';
-import {Text, View, StyleSheet, ActivityIndicator, Image} from 'react-native';
+import { useSelector } from 'react-redux';
+import { Text, View, StyleSheet, ActivityIndicator, Image } from 'react-native';
 import userCityNotificationAPI from '../../features/userCityNotification/userCityNotificationAPI';
-import {userDataSelector} from '../../features/authentication/userSlice';
+import { userDataSelector } from '../../features/authentication/userSlice';
 import UserInfoItem from './UserInfoItem';
+
+const mock_user = {
+  name: 'Linh',
+  surname: 'Do',
+  userName: 'linhda',
+  emailAddress: 'abc@gmail.com',
+  id: 1234,
+}
 
 const User = () => {
   const userData = useSelector(userDataSelector);
   const [userInformation, setUserInformation] = useState([]);
 
   useEffect(() => {
-    const url =
-      'http://103.229.41.59/api/services/app/Session/GetCurrentLoginInformations';
-    let config = {
-      headers: {Authorization: `Bearer ${userData.accessToken}`},
-      params: null,
-    };
-    async function fetchUserInfo() {
-      const data = await axios
-        .get(url, config)
-        .then(function (response) {
-          console.log(JSON.parse(response.request._response).result.user);
-          return JSON.parse(response.request._response).result.user;
-        })
-        .catch(error => console.log(error));
-      setUserInformation(data);
-    }
-    fetchUserInfo();
+    // const url =
+    //   'http://103.229.41.59/api/services/app/Session/GetCurrentLoginInformations';
+    // let config = {
+    //   headers: {Authorization: `Bearer ${userData.accessToken}`},
+    //   params: null,
+    // };
+    // async function fetchUserInfo() {
+    //   const data = await axios
+    //     .get(url, config)
+    //     .then(function (response) {
+    //       console.log(JSON.parse(response.request._response).result.user);
+    //       return JSON.parse(response.request._response).result.user;
+    //     })
+    //     .catch(error => console.log(error));
+    //   setUserInformation(data);
+    // }
+    // fetchUserInfo();
+    setUserInformation(mock_user);
   }, [userData.accessToken]);
   return (
     <View style={styles.notificationContainer}>

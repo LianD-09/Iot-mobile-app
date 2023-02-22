@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -10,17 +10,18 @@ import {
   Platform,
   PermissionsAndroid,
   Alert,
+  ScrollView,
 } from 'react-native';
-import {Slider} from 'react-native-elements';
+import { Slider } from 'react-native-elements';
 import QRCode from 'react-native-qrcode-svg';
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Share from 'react-native-share';
-import {CameraRoll} from '@react-native-camera-roll/camera-roll';
+import { CameraRoll } from '@react-native-camera-roll/camera-roll';
 import RNFS from 'react-native-fs';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-const {width, height} = Dimensions.get('screen');
+const { width, height } = Dimensions.get('screen');
 
 const CreateHomeQR = props => {
   const dispatch = useDispatch();
@@ -111,12 +112,12 @@ const CreateHomeQR = props => {
     }
   };
   useEffect(() => {
-    setQrvalue('toandeptrai');
-    setQRImage('data:image/png;base64,' + 'toandeptrai');
+    setQrvalue('doanhlinh12');
+    setQRImage('data:image/png;base64,' + 'doanhlinh12');
     setIsLoading(false);
   }, []);
   return (
-    <View
+    <ScrollView
       style={{
         height: height,
         backgroundColor: modalVisible ? '#dcdcdc' : 'rgba(255, 255, 255, 0.5)',
@@ -141,7 +142,7 @@ const CreateHomeQR = props => {
             }}>
             Thiết lập tạo QR Code
           </Text>
-          <View style={{position: 'absolute', top: 100}}>
+          <View style={{ position: 'absolute', top: 100 }}>
             <View>
               <Text
                 style={{
@@ -151,7 +152,7 @@ const CreateHomeQR = props => {
                   color: 'white',
                   fontStyle: 'italic',
                 }}>
-                {'hihihi'}
+                {'12345'}
               </Text>
             </View>
           </View>
@@ -182,14 +183,14 @@ const CreateHomeQR = props => {
             </Text>
           </View>
           <Slider
-            style={{width: (width * 8) / 10, height: 40}}
+            style={{ width: (width * 8) / 10, height: 40 }}
             minimumValue={15}
             maximumValue={120}
             step={15}
             value={timelive}
             minimumTrackTintColor="#40afff"
             maximumTrackTintColor="#c2e7ff"
-            thumbStyle={{height: 20, width: 20, backgroundColor: '#339FD9'}}
+            thumbStyle={{ height: 20, width: 20, backgroundColor: '#339FD9' }}
             t
             thumbTintColor="#339FD9"
             onSlidingComplete={value => setTimeLive(value)}
@@ -214,24 +215,23 @@ const CreateHomeQR = props => {
               );
             })}
           </View>
-          <View style={{marginTop: 50}}>
-            <Text style={{fontSize: 16, fontStyle: 'italic'}}>
+          <View style={{ marginTop: 50 }}>
+            <Text style={{ fontSize: 16, fontStyle: 'italic' }}>
               Thời gian tồn tại:{' '}
-              <Text style={{fontWeight: '500', color: '#339FD9'}}>
+              <Text style={{ fontWeight: '500', color: '#339FD9' }}>
                 {timelive} phút
               </Text>
             </Text>
           </View>
           <View
-            style={{flexDirection: 'row', position: 'absolute', bottom: 80}}>
+            style={{ flexDirection: 'row', position: 'absolute', bottom: 80 }}>
             <TouchableOpacity
               style={[
                 styles.verifyBtn,
-                {backgroundColor: 'red', marginRight: 20},
+                { backgroundColor: 'red', marginRight: 20 },
               ]}
               onPress={() => {
                 setModalVisible(false);
-                props.navigation.goBack();
               }}>
               <Text style={styles.verifyBtnText}>Huỷ</Text>
             </TouchableOpacity>
@@ -254,17 +254,17 @@ const CreateHomeQR = props => {
       </Modal>
       {/* Content */}
       {isLoading ? null : (
-        <View style={{marginTop: 20, flex: 1}}>
-          <View style={{alignSelf: 'center'}}>
-            <Text style={{fontSize: 17, color: 'black'}}>
+        <View style={{ marginTop: 20, flex: 1 }}>
+          <View style={{ alignSelf: 'center' }}>
+            <Text style={{ fontSize: 17, color: 'black' }}>
               Tạo mã QR thành công
             </Text>
-            <Text style={{fontSize: 17, color: 'black'}}>
+            <Text style={{ fontSize: 17, color: 'black' }}>
               Mã QR có hiệu lực trong:{' '}
-              <Text style={{color: '#339FD9'}}>{timelive} phút</Text>
+              <Text style={{ color: '#339FD9' }}>{timelive} phút</Text>
             </Text>
           </View>
-          <View style={{alignSelf: 'center', marginTop: 0}}>
+          <View style={{ alignSelf: 'center', marginTop: 0 }}>
             <QRCode
               value={qrValue ? qrValue : 'fgyhdtfghf'}
               //   getRef={c => (this.svg = c)}
@@ -272,11 +272,15 @@ const CreateHomeQR = props => {
               quietZone={width / 4}
             />
           </View>
-          <View style={{flexDirection: 'row', alignSelf: 'center'}}>
+          <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
             {Platform.OS === 'android' ? (
-              <View style={{marginTop: 5, marginRight: 20}}>
+              <View style={{ marginTop: 5, marginEnd: 20 }}>
                 <TouchableOpacity
-                  style={styles.verifyBtn}
+                  style={
+                    Platform.OS === 'ios'
+                      ? [styles.verifyBtn, { width: (width * 2) / 3 + 20 }]
+                      : [styles.verifyBtn]
+                  }
                   onPress={() => {
                     // setModalVisible(false);
                     // props.navigation.goBack();
@@ -287,11 +291,11 @@ const CreateHomeQR = props => {
                 </TouchableOpacity>
               </View>
             ) : null}
-            <View style={{marginTop: 5}}>
+            <View style={{ marginTop: 5 }}>
               <TouchableOpacity
                 style={
                   Platform.OS === 'ios'
-                    ? [styles.verifyBtn, {width: (width * 2) / 3 + 20}]
+                    ? [styles.verifyBtn, { width: (width * 2) / 3 + 20 }]
                     : [styles.verifyBtn]
                 }
                 onPress={() => {
@@ -302,20 +306,24 @@ const CreateHomeQR = props => {
               </TouchableOpacity>
             </View>
           </View>
-          <View style={{marginTop: 5}}>
+          <View style={{ marginTop: 5 }}>
             <TouchableOpacity
-              style={[styles.verifyBtn, {width: (width * 2) / 3 + 20}]}
+              style={
+                Platform.OS === 'ios'
+                  ? [styles.verifyBtn, { width: (width * 2) / 3 + 20 }]
+                  : [styles.verifyBtn, { width: width * 2 / 3 + 20}]
+              }
               onPress={() => {
                 // props.navigation.goBack();
                 setModalVisible(true);
               }}>
               <Ionicons name="create-outline" size={25} color="white" />
-              <Text style={styles.verifyBtnText}>Tạo mã QR mới</Text>
+              <Text style={styles.verifyBtnText}>Tạo QR</Text>
             </TouchableOpacity>
           </View>
         </View>
       )}
-    </View>
+    </ScrollView>
   );
 };
 export default CreateHomeQR;

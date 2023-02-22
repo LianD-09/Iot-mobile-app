@@ -40,9 +40,16 @@ const Notification = () => {
     },
     {
       id: 3,
-      Name: 'You',
+      Name: 'Do Anh Linh',
       Type: 'Door open',
       Time: '20-09-2022, 6:56 PM',
+      Message: 'Access by your QRCode',
+    },
+    {
+      id: 4,
+      Name: 'You',
+      Type: 'Door open',
+      Time: '20-09-2022, 6:57 PM',
       Message: 'Access by your permission',
     },
   ];
