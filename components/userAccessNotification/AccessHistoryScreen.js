@@ -8,7 +8,7 @@ const renderScene = SceneMap({
   first: Notification,
 });
 
-export default function CityNewsScreen() {
+export default function AccessHistoryScreen() {
   const layout = useWindowDimensions();
 
   const [index, setIndex] = React.useState(0);

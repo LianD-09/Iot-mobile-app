@@ -2,7 +2,7 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {View, Text, Image, StyleSheet} from 'react-native';
-import CityNewsScreen from '../userCityNotification/CityNewsScreen';
+import AccessHistoryScreen from '../userAccessNotification/AccessHistoryScreen';
 import UserScreen from '../UserScreen/UserScreen';
 import {SmartSocialScreen} from '../../Screen/smartSocialScreen/SmartSocialScreen';
 import CreateHomeQR from '../../Screen/smartSocialScreen/QRCodeScreen';
@@ -16,8 +16,8 @@ export default function Home() {
         tabBarShowLabel: false,
       }}>
       <Tab.Screen
-        name="City news"
-        component={CityNewsScreen}
+        name="Access History"
+        component={AccessHistoryScreen}
         options={{
           showLabel: false,
           headerShown: false,
@@ -38,7 +38,7 @@ export default function Home() {
               </Text>
             </View>
           ),
-          title: 'City news', //Set Header Title
+          title: 'Access History', //Set Header Title
           headerStyle: {
             backgroundColor: '#3A5BB3', //Set Header color
           },
@@ -50,7 +50,7 @@ export default function Home() {
         }}
       />
       <Tab.Screen
-        name="Smart social"
+        name="Create QRCode"
         component={CreateHomeQR}
         options={{
           showLabel: false,

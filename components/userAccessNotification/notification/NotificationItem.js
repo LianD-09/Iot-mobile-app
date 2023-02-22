@@ -10,6 +10,9 @@ import {
   ScrollView,
   Image,
 } from 'react-native';
+
+import guestImg from './dal.jpg';
+
 const NotificationItem = ({title}) => {
   console.log('1: ', title);
   const [showEvent, setShowEvent] = useState(false);
@@ -50,14 +53,14 @@ const NotificationItem = ({title}) => {
               <Text>{'- Content: ' + title.Message}</Text>
               {title.fileUrl && <NotificationImage url={title.fileUrl} />}
               <Text style={styles.modalText}>{'- Time: ' + title.Time}</Text>
-              <Image style={styles.image} source={require('./guest.png')} />
+              <Image style={styles.image} source={guestImg} />
             </ScrollView>
             <View
               style={{
                 alignItems: 'center',
                 justifyContent: 'space-between',
               }}>
-              <Image style={styles.image} source={require('./guest.png')} />
+              <Image style={styles.image} source={guestImg} />
               <Pressable
                 style={styles.hideDetailBtn}
                 onPress={() => setShowEvent(!showEvent)}>
