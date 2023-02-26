@@ -14,6 +14,7 @@ import {
   Alert,
 } from 'react-native';
 import {Checkbox} from 'react-native-paper';
+import { StackActions } from '@react-navigation/native';
 
 const LoginLayout = ({navigation}) => {
   const [remember, setRemember] = useState(false);
@@ -22,34 +23,27 @@ const LoginLayout = ({navigation}) => {
   const [password, setPassword] = useState('');
 
   const handleSubmitEvent = () => {
-    navigation.navigate('Home', {name: 'Home'});
-
-    // authenAPI
-    //   .loginAPI({
-    //     userNameOrEmailAddress: email,
-    //     password: password,
-    //     tenancyName: '',
-    //     rememberClient: remember,
-    //   })
-    //   .then(response => response)
-    //   .then(responseJson => {
-    //     const tokenAuth = responseJson.data.result.accessToken;
-    //     if (typeof tokenAuth === 'undefined') {
-    //       // Alert.alert('Wrong email or password');
-    //       Alert.alert('Sign in success');
-    //       navigation.navigate('Home', {name: 'Home'});
-    //     } else {
-    //       Alert.alert('Sign in success');
-    //       navigation.navigate('Home', {name: 'Home'});
-    //       // dispatch(login(responseJson.data.result));
-    //     }
-    //   })
-    //   .catch(error => {
-    //     console.error(error);
-    //     Alert.alert('Sign in success');
-    //     navigation.navigate('Home', {name: 'Home'});
-    //     // Alert.alert('Sign in unsuccess');
-    //   });
+    authenAPI
+      .loginAPI({
+        userName: email,
+        password: password,
+      })
+      .then(response => response)
+      .then(responseJson => {
+        const success = responseJson.data.success;
+        if (success){
+          Alert.alert("Sign in successful!");
+          navigation.navigate('Home', {name: 'Home'});
+          dispatch(login(responseJson.data.data));
+        }
+        else {
+          Alert.alert("Sign in failed!");
+        }
+      })
+      .catch(error => {
+        console.error(error);
+        Alert.alert('Sign in failed');
+      });
   };
 
   return (

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { Text, View, StyleSheet, ActivityIndicator, Image } from 'react-native';
-import userCityNotificationAPI from '../../features/userCityNotification/userCityNotificationAPI';
 import { userDataSelector } from '../../features/authentication/userSlice';
 import UserInfoItem from './UserInfoItem';
 

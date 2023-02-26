@@ -14,7 +14,6 @@ import {
 import guestImg from './dal.jpg';
 
 const NotificationItem = ({title}) => {
-  console.log('1: ', title);
   const [showEvent, setShowEvent] = useState(false);
   return (
     <View style={styles.itemContainer}>
