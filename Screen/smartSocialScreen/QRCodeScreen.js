@@ -191,7 +191,6 @@ const CreateHomeQR = props => {
             minimumTrackTintColor="#40afff"
             maximumTrackTintColor="#c2e7ff"
             thumbStyle={{ height: 20, width: 20, backgroundColor: '#339FD9' }}
-            t
             thumbTintColor="#339FD9"
             onSlidingComplete={value => setTimeLive(value)}
           />

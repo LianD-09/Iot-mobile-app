@@ -1,9 +1,9 @@
 /* eslint-disable no-shadow */
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
-import {authenAPI} from '../../features/authentication/authenAPI';
-import {useDispatch} from 'react-redux';
-import {login} from '../../features/authentication/userSlice';
+import React, { useState } from 'react';
+import { authenAPI } from '../../features/authentication/authenAPI';
+import { useDispatch } from 'react-redux';
+import { login } from '../../features/authentication/userSlice';
 import {
   StyleSheet,
   Text,
@@ -13,10 +13,11 @@ import {
   Image,
   Alert,
 } from 'react-native';
-import {Checkbox} from 'react-native-paper';
+import { Checkbox } from 'react-native-paper';
 import { StackActions } from '@react-navigation/native';
+import { userAPI } from '../../features/user/userAPI';
 
-const LoginLayout = ({navigation}) => {
+const LoginLayout = ({ navigation }) => {
   const [remember, setRemember] = useState(false);
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
@@ -31,10 +32,18 @@ const LoginLayout = ({navigation}) => {
       .then(response => response)
       .then(responseJson => {
         const success = responseJson.data.success;
-        if (success){
+        const loginData = responseJson.data.data;
+        if (success) {
           Alert.alert("Sign in successful!");
-          navigation.navigate('Home', {name: 'Home'});
-          dispatch(login(responseJson.data.data));
+          navigation.navigate('Home', { name: 'Home' });
+          userAPI
+            .getUserAPI({
+              accountId: loginData.accountId
+            }, loginData.token)
+            .then(response => {
+              dispatch(login({ ...loginData, ...response.data.data }));
+            })
+            .catch(error => console.log(error));
         }
         else {
           Alert.alert("Sign in failed!");
@@ -83,16 +92,16 @@ const LoginLayout = ({navigation}) => {
             setRemember(!remember);
           }}
         />
-        <Text style={{marginTop: 8}}>Remember me</Text>
+        <Text style={{ marginTop: 8 }}>Remember me</Text>
       </View>
 
       <TouchableOpacity
         style={styles.loginButton}
         onPress={() => handleSubmitEvent()}>
-        <Text style={{color: 'white'}}>LOGIN</Text>
+        <Text style={{ color: 'white' }}>LOGIN</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={{marginTop: 20}}>
+      <TouchableOpacity style={{ marginTop: 20 }}>
         <Text
           style={styles.forgotButtonText}
           onPress={() => navigation.navigate('Home', {})}>
@@ -101,8 +110,8 @@ const LoginLayout = ({navigation}) => {
       </TouchableOpacity>
 
       <TouchableOpacity
-        style={{marginTop: 20}}
-        onPress={() => navigation.navigate('Sign up', {name: 'Sign up'})}>
+        style={{ marginTop: 20 }}
+        onPress={() => navigation.navigate('Sign up', { name: 'Sign up' })}>
         <Text style={styles.forgotButtonText}>Sign up</Text>
       </TouchableOpacity>
     </View>
