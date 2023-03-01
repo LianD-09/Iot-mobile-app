@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Text,
   View,
@@ -10,9 +10,9 @@ import {
   Image,
   Dimensions,
   TouchableOpacity,
-  Modal,
+  Alert,
 } from 'react-native';
-import { userDataSelector } from '../../features/authentication/userSlice';
+import { update, userDataSelector } from '../../features/authentication/userSlice';
 import UserInfoItem from './UserInfoItem';
 import { userAPI } from '../../features/user/userAPI';
 
@@ -28,6 +28,7 @@ const mock_user = {
 
 const User = () => {
   const userData = useSelector(userDataSelector);
+  const dispatch = useDispatch();
   const [userInformation, setUserInformation] = useState([]);
   // const [modalVisible, setModalVisible] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
@@ -51,50 +52,31 @@ const User = () => {
   }, [userData.token]);
 
   const updateInformation = (data) => {
-
+    setUserInformation({ ...userInformation, ...data })
   }
+
+  const handleSave = () => {
+    const { isActive, role, roleId, token, userName, ...data } = userInformation;
+    userAPI
+      .updateUserAPI(data)
+      .then(res => {
+        const success = res.data.success;
+        if (success) {
+          Alert.alert('Update user successful!');
+          dispatch(update(data));
+        }
+        else {
+          Alert.alert("Update user failed!");
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        Alert.alert('Update user failed!');
+      })
+  }
+
   return (
-    <ScrollView
-      style={styles.userInformationContainer}
-      contentContainerStyle={{
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-    >
-      {/* <View style={styles.centeredView}>
-        <Modal
-          animationType="fade"
-          transparent={true}
-          visible={modalVisible}
-          style
-          onRequestClose={() => {
-            setModalVisible(false);
-          }}>
-          <View style={styles.modalView}>
-            <View
-              style={{ flexDirection: 'row', position: 'absolute', bottom: 80 }}>
-              <TouchableOpacity
-                style={[
-                  styles.verifyBtn,
-                  { backgroundColor: 'red', marginRight: 20 },
-                ]}
-                onPress={() => {
-                  setModalVisible(false);
-                }}>
-                <Text style={styles.verifyBtnText}>Cancel</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.verifyBtn}
-                onPress={() => {
-                  setModalVisible(false);
-                  updateInformation();
-                }}>
-                <Text style={styles.verifyBtnText}>Save</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </Modal>
-      </View> */}
+    <View style={styles.userInformationContainer}>
       <Image
         style={styles.image}
         source={require('../../assets/Login/Logo.png')}
@@ -103,16 +85,17 @@ const User = () => {
       {userInformation === null ? (
         <ActivityIndicator />
       ) : (
-        <View style={styles.userInformations}>
+        <ScrollView style={styles.userInformations}>
           <UserInfoItem sytle={styles.userInfoItem}
             labelTitle={'Name: '}
             infoTitle={userInformation.fullName}
+            setInformation={(value) => updateInformation({ fullName: value })}
             isEdit={isEdit}
           />
           <UserInfoItem
             labelTitle={'User name: '}
             infoTitle={userData.userName}
-            isEdit={isEdit}
+            setInformation={(value) => updateInformation({ userName: value })}
           />
           <UserInfoItem
             labelTitle={'Citizen identification: '}
@@ -122,8 +105,39 @@ const User = () => {
           <UserInfoItem
             labelTitle={'User id: '}
             infoTitle={userInformation.id}
+            setInformation={(value) => updateInformation({ id: value })}
             isEdit={isEdit}
           />
+        </ScrollView>
+      )}
+      <View style={{ marginBottom: 15 }} >
+        {isEdit ?
+          <View style={{ flexDirection: 'row' }}>
+            <TouchableOpacity
+              style={[
+                styles.verifyBtn,
+                { backgroundColor: 'red', marginRight: 20 },
+              ]}
+              onPress={() => {
+                setIsEdit(false)
+              }}>
+              <Text style={styles.verifyBtnText}>Cancel</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.verifyBtn}
+              onPress={() => {
+                setIsEdit(false);
+                handleSave();
+                // dispatch(
+                //   actions.getQrCodeAcceptControl({
+                //     timeLife: timelive,
+                //     phoneNumber: phoneNumber,
+                //   }),
+                // );
+              }}>
+              <Text style={styles.verifyBtnText}>Save</Text>
+            </TouchableOpacity>
+          </View> :
           <TouchableOpacity
             style={styles.verifyBtn}
             onPress={() => {
@@ -138,20 +152,19 @@ const User = () => {
             }}>
             <Text style={styles.verifyBtnText}>Edit</Text>
           </TouchableOpacity>
-        </View>
-      )}
-    </ScrollView>
+        }
+      </View>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   userInformationContainer: {
     flexDirection: 'column',
-    // alignItems: 'center',
-    // justifyContent: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: 'white',
     flex: 1,
-    position: 'relative',
   },
   image: {
     height: '30%',

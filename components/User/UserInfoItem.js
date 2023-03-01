@@ -1,21 +1,22 @@
 import React from 'react';
+import { useEffect } from 'react';
+import { useState } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { TextInput } from 'react-native-paper';
 
-const UserInfoItem = ({ labelTitle, infoTitle, isEdit }) => {
+const UserInfoItem = ({ labelTitle, setInformation, infoTitle, isEdit }) => {
   return (
     <View style={styles.itemContainer}>
       <Text style={styles.labelTitle}>{labelTitle}</Text>
-      {!isEdit ?
-        <Text style={styles.infoTitle}>{infoTitle}</Text>
-        :
-        <TextInput
-          style={styles.infoTitle}
-          underlineColor="transparent"
-        >
-          {infoTitle}
-        </TextInput>
-      }
+      <TextInput
+        style={styles.infoTitle}
+        underlineColor="transparent"
+        onChangeText={v => {
+          setInformation(v);
+        }}
+        value={`${infoTitle}`}
+        disabled={!isEdit}
+      />
     </View>
   );
 };
@@ -26,7 +27,7 @@ const styles = StyleSheet.create({
     borderBottomColor: 'grey',
     borderBottomWidth: 0.7,
     marginTop: 7,
-    paddingVertical: 5,
+    height: 50,
     alignItems: 'center'
   },
   labelTitle: {
@@ -37,10 +38,10 @@ const styles = StyleSheet.create({
     width: '55%',
   },
   infoTitle: {
-    marginBottom: 0,
+    marginVertical: 8,
+    padding: 0,
     backgroundColor: null,
     fontSize: 14,
-    marginVertical: 8,
     color: '#242A53',
   },
 });
