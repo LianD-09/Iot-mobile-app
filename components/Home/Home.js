@@ -4,8 +4,9 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {View, Text, Image, StyleSheet} from 'react-native';
 import AccessHistoryScreen from '../userAccessNotification/AccessHistoryScreen';
 import UserScreen from '../UserScreen/UserScreen';
-import {SmartSocialScreen} from '../../Screen/smartSocialScreen/SmartSocialScreen';
-import CreateHomeQR from '../../Screen/smartSocialScreen/QRCodeScreen';
+// import {SmartSocialScreen} from '../../Screen/smartSocialScreen/SmartSocialScreen';
+// import CreateHomeQR from '../../Screen/smartSocialScreen/QRCodeScreen';
+import AssignApartment from '../../Screen/AssignApartment/AssignApartment';
 
 const Tab = createBottomTabNavigator();
 
@@ -51,8 +52,8 @@ export default function Home() {
         }}
       />
       <Tab.Screen
-        name="Create QRCode"
-        component={CreateHomeQR}
+        name="Assign Apartment"
+        component={AssignApartment}
         options={{
           showLabel: false,
           headerShown: false,
@@ -70,7 +71,7 @@ export default function Home() {
               />
               <Text
                 style={{color: focused ? '#3A5BB3' : '#a9a9a9', fontSize: 12}}>
-                Create QRCode
+                Assign Apartment
               </Text>
             </View>
           ),
