@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
-import NotificationImage from './NotificationImage';
+import React, { useState } from 'react';
+import { format } from 'date-fns';
 import {
   Modal,
   StyleSheet,
@@ -10,11 +10,14 @@ import {
   ScrollView,
   Image,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 import guestImg from './dal.jpg';
 
-const NotificationItem = ({title}) => {
+const NotificationItem = ({ title }) => {
   const [showEvent, setShowEvent] = useState(false);
+  const time = format(new Date(title.creationTime), 'HH:mm:ss - dd/MM/yyyy');
+
   return (
     <View style={styles.itemContainer}>
       {/* <Text>{title.countComment}</Text> */}
@@ -22,9 +25,9 @@ const NotificationItem = ({title}) => {
         <Pressable
           style={[styles.button, styles.buttonOpen]}
           onPress={() => setShowEvent(true)}>
-          <Text style={styles.name}>{'- ' + title.Type}</Text>
-          <Text>{'   -Name: ' + title.Name}</Text>
-          <Text>{'   -Time: ' + title.Time}</Text>
+          <Text style={styles.name}>{'- ' + title.mqttType}</Text>
+          <Text>{'   - Name: ' + title.visitorName}</Text>
+          <Text>{'   - Time: ' + time}</Text>
         </Pressable>
       </View>
       <Modal
@@ -46,20 +49,20 @@ const NotificationItem = ({title}) => {
               }}>
               Detail:
             </Text>
-            <ScrollView style={{maxHeight: 500}}>
-              <Text style={styles.name}>{'- Action: ' + title.Type}</Text>
-              <Text>{'- Name: ' + title.Name}</Text>
-              <Text>{'- Content: ' + title.Message}</Text>
-              {title.fileUrl && <NotificationImage url={title.fileUrl} />}
-              <Text style={styles.modalText}>{'- Time: ' + title.Time}</Text>
-              <Image style={styles.image} source={guestImg} />
+            <ScrollView style={{ maxHeight: 500 }}>
+              <Text style={styles.name}>{'Action: ' + title.mqttType}</Text>
+              <Text>{'- Name: ' + title.visitorName}</Text>
+              <Text>{'- Content: ' + title.description}</Text>
+              <Text style={styles.modalText}>{'- Time: ' + time}</Text>
             </ScrollView>
             <View
               style={{
                 alignItems: 'center',
                 justifyContent: 'space-between',
               }}>
-              <Image style={styles.image} source={guestImg} />
+              {title.imageUrl 
+              ? <Image style={styles.image} source={title.imageUrl} />
+              : <Icon name="user" size={200} style={{marginTop: 20}}/>}
               <Pressable
                 style={styles.hideDetailBtn}
                 onPress={() => setShowEvent(!showEvent)}>
@@ -90,7 +93,8 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   image: {
-    height: '50%',
+    marginTop: 30,
+    height: 200,
     resizeMode: 'contain',
   },
   item: {
@@ -138,7 +142,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   hideDetailBtn: {
-    marginTop: 60,
+    marginTop: 30,
     borderRadius: 10,
     padding: 20,
     elevation: 2,

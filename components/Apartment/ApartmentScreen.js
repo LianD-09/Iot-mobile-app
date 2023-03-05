@@ -18,8 +18,6 @@ const { height, width } = Dimensions.get('screen');
 const ApartmentScreen = (props) => {
     const apartment = useSelector(apartmentDataSelector)
     const data = apartment.data;
-    const [history, setHistory] = useState(false);
-    const [qrcode, setQrcode] = useState(false);
 
     return (
         <SafeAreaView style={styles.container}>
