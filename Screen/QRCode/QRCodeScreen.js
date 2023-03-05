@@ -37,6 +37,7 @@ const CreateHomeQR = props => {
   const [count, setCount] = useState(1);
   const [QRImage, setQRImage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isCreating, setIsCreating] = useState(false);
   const [qrValue, setQrvalue] = useState('');
   const [accessCount, setAccessCount] = useState(false);
   const [accessTime, setAccessTime] = useState(false);
@@ -130,6 +131,7 @@ const CreateHomeQR = props => {
   }
 
   const createQR = () => {
+    setIsCreating(true);
     if (!accessCount && !accessTime) {
       Alert.alert('You must select and configure at least one field!');
     }
@@ -143,11 +145,11 @@ const CreateHomeQR = props => {
           visitorName: visitor,
         }, user.token)
         .then(res => {
-          console.log(res.data)
           setQrvalue(res.data?.data);
           setQRImage(res.data?.data);
           setIsLoading(false);
           setModalVisible(false);
+          setIsCreating(false);
           Alert.alert('Create QR Code successful!')
         })
         .catch(err => {
@@ -162,229 +164,247 @@ const CreateHomeQR = props => {
   }, []);
 
   return (
-    <ScrollView
-      style={{
-        height: height,
-        backgroundColor: modalVisible ? '#dcdcdc' : 'rgba(255, 255, 255, 0.5)',
-      }}>
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
+    !isCreating
+      ? <ScrollView
+        style={{
+          height: height,
+          backgroundColor: modalVisible ? '#dcdcdc' : 'rgba(255, 255, 255, 0.5)',
         }}>
-        <View style={styles.centeredView}>
-          <Text
-            style={{
-              fontSize: 24,
-              color: 'grey',
-              marginHorizontal: 20,
-              marginVertical: 15,
-              fontWeight: 'bold',
-            }}>
-            Configure QR Code
-          </Text>
-          <View
-            style={{
-              marginTop: 15,
-              marginStart: 30,
-              flexDirection: 'row',
-              justifyContent: 'center',
-              alignItems: 'center',
-              alignSelf: 'flex-start',
-              height: 40,
-            }}>
-            <Text style={styles.textModal}>Visitor name:</Text>
-            <TextInput
-              style={[
-                styles.textModal,
-                {
-                  backgroundColor: null,
-                  padding: 0,
-                  marginHorizontal: 20,
-                  borderBottomWidth: 0.7,
-                  width: '60%',
-                  textAlign: 'center'
-                },
-              ]}
-              onChangeText={v => {
-                setVisitor(v);
-              }}
-              placeholder='Fill visitor name!'
-            />
-          </View>
-          <View
-            style={{
-              marginTop: 8,
-              marginStart: 30,
-              flexDirection: 'row',
-              justifyContent: 'center',
-              alignSelf: 'flex-start',
-            }}>
-            <Checkbox
-              status={accessCount ? 'checked' : 'unchecked'}
-              color="#ff5722"
-              onPress={() => {
-                setAccessCount(!accessCount);
-              }}
-            />
-            <Text style={styles.textModal}>Limit access:</Text>
-          </View>
-          {accessCount
-            ? <View
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible);
+          }}>
+          <View style={styles.centeredView}>
+            <Text
               style={{
-                flexDirection: 'row',
-                marginTop: 10,
-              }}
-            >
-              <TouchableOpacity onPress={() => adjustCount('-')}>
-                <Text style={styles.adjustBtn}>-</Text>
-              </TouchableOpacity>
-              <Text style={{
-                textAlign: 'center',
-                fontSize: 20,
+                fontSize: 24,
+                color: 'grey',
+                marginHorizontal: 20,
+                marginVertical: 15,
                 fontWeight: 'bold',
-                color: '#339FD9',
-              }}>{count}</Text>
-              <TouchableOpacity onPress={() => adjustCount('+')}>
-                <Text style={styles.adjustBtn}>+</Text>
+              }}>
+              Configure QR Code
+            </Text>
+            <View
+              style={{
+                marginTop: 15,
+                marginStart: 30,
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+                alignSelf: 'flex-start',
+                height: 40,
+              }}>
+              <Text style={styles.textModal}>Visitor name:</Text>
+              <TextInput
+                style={[
+                  styles.textModal,
+                  {
+                    backgroundColor: null,
+                    padding: 0,
+                    marginHorizontal: 20,
+                    borderBottomWidth: 0.7,
+                    width: '60%',
+                    textAlign: 'center'
+                  },
+                ]}
+                onChangeText={v => {
+                  setVisitor(v);
+                }}
+                placeholder='Fill visitor name!'
+              />
+            </View>
+            <View
+              style={{
+                marginTop: 8,
+                marginStart: 30,
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignSelf: 'flex-start',
+              }}>
+              <Checkbox
+                status={accessCount ? 'checked' : 'unchecked'}
+                color="#ff5722"
+                onPress={() => {
+                  setAccessCount(!accessCount);
+                }}
+              />
+              <Text style={styles.textModal}>Limit access:</Text>
+            </View>
+            {accessCount
+              ? <View
+                style={{
+                  flexDirection: 'row',
+                  marginTop: 10,
+                }}
+              >
+                <TouchableOpacity onPress={() => adjustCount('-')}>
+                  <Text style={styles.adjustBtn}>-</Text>
+                </TouchableOpacity>
+                <Text style={{
+                  textAlign: 'center',
+                  fontSize: 20,
+                  fontWeight: 'bold',
+                  color: '#339FD9',
+                }}>{count}</Text>
+                <TouchableOpacity onPress={() => adjustCount('+')}>
+                  <Text style={styles.adjustBtn}>+</Text>
+                </TouchableOpacity>
+              </View>
+              : null}
+            <View
+              style={{
+                marginTop: 8,
+                marginStart: 30,
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignSelf: 'flex-start',
+              }}>
+              <Checkbox
+                status={accessTime ? 'checked' : 'unchecked'}
+                color="#ff5722"
+                onPress={() => {
+                  setAccessTime(!accessTime);
+                }}
+              />
+              <Text style={styles.textModal}>Limit time:</Text>
+            </View>
+            {accessTime
+              ? <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    width: width * 0.85,
+                    marginTop: 20,
+                  }}>
+                  <Text
+                    style={{
+                      color: 'grey',
+                      fontSize: 14,
+                      fontWeight: '600',
+                      fontStyle: 'italic',
+                    }}>
+                    15 phút
+                  </Text>
+                  <Text
+                    style={{
+                      color: 'grey',
+                      fontSize: 14,
+                      fontWeight: '600',
+                      fontStyle: 'italic',
+                    }}>
+                    120 phút
+                  </Text>
+                </View>
+                <Slider
+                  style={{ width: (width * 8) / 10, height: 30 }}
+                  minimumValue={15}
+                  maximumValue={120}
+                  step={15}
+                  value={timelive}
+                  minimumTrackTintColor="#40afff"
+                  maximumTrackTintColor="#c2e7ff"
+                  thumbStyle={{ height: 20, width: 20, backgroundColor: '#339FD9' }}
+                  thumbTintColor="#339FD9"
+                  onSlidingComplete={value => setTimeLive(value)}
+                />
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    marginTop: 5,
+                    width: (width * 8) / 10,
+                  }}>
+                  {[0, 1, 2, 3, 4, 5, 6, 7].map(item => {
+                    return (
+                      <View
+                        key={item.toString()}
+                        style={{
+                          height: 6,
+                          borderColor: '#3A5BB3',
+                          borderWidth: 1,
+                        }}
+                      />
+                    );
+                  })}
+                </View>
+                <View style={{ marginTop: 15 }}>
+                  <Text style={{ fontSize: 16, fontStyle: 'italic' }}>
+                    Thời gian tồn tại:{' '}
+                    <Text style={{ fontWeight: '500', color: '#339FD9' }}>
+                      {timelive} phút
+                    </Text>
+                  </Text>
+                </View>
+              </View>
+              : null}
+            <View
+              style={{ flexDirection: 'row', position: 'absolute', bottom: 30 }}>
+              <TouchableOpacity
+                style={[
+                  styles.verifyBtn,
+                  { backgroundColor: 'red', marginRight: 20 },
+                ]}
+                onPress={() => {
+                  setModalVisible(false);
+                }}>
+                <Text style={styles.verifyBtnText}>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.verifyBtn}
+                onPress={() => {
+                  createQR();
+                  setIsLoading(true);
+                }}>
+                <Text style={styles.verifyBtnText}>Create</Text>
               </TouchableOpacity>
             </View>
-            : null}
-          <View
-            style={{
-              marginTop: 8,
-              marginStart: 30,
-              flexDirection: 'row',
-              justifyContent: 'center',
-              alignSelf: 'flex-start',
-            }}>
-            <Checkbox
-              status={accessTime ? 'checked' : 'unchecked'}
-              color="#ff5722"
-              onPress={() => {
-                setAccessTime(!accessTime);
-              }}
-            />
-            <Text style={styles.textModal}>Limit time:</Text>
           </View>
-          {accessTime
-            ? <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  width: width * 0.85,
-                  marginTop: 20,
-                }}>
-                <Text
-                  style={{
-                    color: 'grey',
-                    fontSize: 14,
-                    fontWeight: '600',
-                    fontStyle: 'italic',
-                  }}>
-                  15 phút
-                </Text>
-                <Text
-                  style={{
-                    color: 'grey',
-                    fontSize: 14,
-                    fontWeight: '600',
-                    fontStyle: 'italic',
-                  }}>
-                  120 phút
-                </Text>
-              </View>
-              <Slider
-                style={{ width: (width * 8) / 10, height: 30 }}
-                minimumValue={15}
-                maximumValue={120}
-                step={15}
-                value={timelive}
-                minimumTrackTintColor="#40afff"
-                maximumTrackTintColor="#c2e7ff"
-                thumbStyle={{ height: 20, width: 20, backgroundColor: '#339FD9' }}
-                thumbTintColor="#339FD9"
-                onSlidingComplete={value => setTimeLive(value)}
-              />
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  marginTop: 5,
-                  width: (width * 8) / 10,
-                }}>
-                {[0, 1, 2, 3, 4, 5, 6, 7].map(item => {
-                  return (
-                    <View
-                      key={item.toString()}
-                      style={{
-                        height: 6,
-                        borderColor: '#3A5BB3',
-                        borderWidth: 1,
-                      }}
-                    />
-                  );
-                })}
-              </View>
-              <View style={{ marginTop: 15 }}>
-                <Text style={{ fontSize: 16, fontStyle: 'italic' }}>
-                  Thời gian tồn tại:{' '}
-                  <Text style={{ fontWeight: '500', color: '#339FD9' }}>
-                    {timelive} phút
-                  </Text>
-                </Text>
-              </View>
+        </Modal>
+        {/* Content */}
+        {isLoading ? null : (
+          <View style={{ marginVertical: 10, flex: 1 }}>
+            <View style={{ alignSelf: 'center' }}>
+              <Text style={{ fontSize: 17, color: 'black' }}>
+                Create QRCode succesful
+              </Text>
+              <Text style={{ fontSize: 17, color: 'black' }}>
+                QRCode is availabled for:{' '}
+                <Text style={{ color: '#339FD9' }}>{accessTime ? `${timelive} minutes` : `Unlimited`}</Text>
+              </Text>
             </View>
-            : null}
-          <View
-            style={{ flexDirection: 'row', position: 'absolute', bottom: 30 }}>
-            <TouchableOpacity
-              style={[
-                styles.verifyBtn,
-                { backgroundColor: 'red', marginRight: 20 },
-              ]}
-              onPress={() => {
-                setModalVisible(false);
-              }}>
-              <Text style={styles.verifyBtnText}>Cancel</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.verifyBtn}
-              onPress={() => {
-                createQR();
-                setIsLoading(true);
-              }}>
-              <Text style={styles.verifyBtnText}>Create</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
-      {/* Content */}
-      {isLoading ? null : (
-        <View style={{ marginVertical: 10, flex: 1 }}>
-          <View style={{ alignSelf: 'center' }}>
-            <Text style={{ fontSize: 17, color: 'black' }}>
-              Create QRCode succesful
-            </Text>
-            <Text style={{ fontSize: 17, color: 'black' }}>
-              QRCode is availabled for:{' '}
-              <Text style={{ color: '#339FD9' }}>{accessTime ? `${timelive} minutes` : `Unlimited`}</Text>
-            </Text>
-          </View>
-          <View style={{ alignSelf: 'center', marginVertical: 10 }}>
-            <QRCode
-              value={qrValue ? qrValue : 'fgyhdtfghf'}
-              //   getRef={c => (this.svg = c)}
-              size={(width * 4) / 5}
-              quietZone={width / 9}
-            />
-          </View>
-          <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
-            {Platform.OS === 'android' ? (
-              <View style={{ marginTop: 5, marginEnd: 20 }}>
+            <View style={{ alignSelf: 'center', marginVertical: 10 }}>
+              <QRCode
+                value={qrValue ? qrValue : 'fgyhdtfghf'}
+                //   getRef={c => (this.svg = c)}
+                size={(width * 4) / 5}
+                quietZone={width / 9}
+              />
+            </View>
+            <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
+              {Platform.OS === 'android' ? (
+                <View style={{ marginTop: 5, marginEnd: 20 }}>
+                  <TouchableOpacity
+                    style={
+                      Platform.OS === 'ios'
+                        ? [styles.verifyBtn, { width: (width * 2) / 3 + 20 }]
+                        : [styles.verifyBtn]
+                    }
+                    onPress={() => {
+                      // setModalVisible(false);
+                      // props.navigation.goBack();
+                      handleShare();
+                    }}>
+                    <Ionicons name="share-outline" size={25} color="white" />
+                    <Text style={styles.verifyBtnText}>Share</Text>
+                  </TouchableOpacity>
+                </View>
+              ) : null}
+              <View style={{ marginTop: 5 }}>
                 <TouchableOpacity
                   style={
                     Platform.OS === 'ios'
@@ -392,52 +412,46 @@ const CreateHomeQR = props => {
                       : [styles.verifyBtn]
                   }
                   onPress={() => {
-                    // setModalVisible(false);
-                    // props.navigation.goBack();
-                    handleShare();
+                    saveQRImageToGalley();
                   }}>
-                  <Ionicons name="share-outline" size={25} color="white" />
-                  <Text style={styles.verifyBtnText}>Share</Text>
+                  <Ionicons name="download-outline" size={25} color="white" />
+                  <Text style={styles.verifyBtnText}>Save</Text>
                 </TouchableOpacity>
               </View>
-            ) : null}
-            <View style={{ marginTop: 5 }}>
-              <TouchableOpacity
-                style={
-                  Platform.OS === 'ios'
-                    ? [styles.verifyBtn, { width: (width * 2) / 3 + 20 }]
-                    : [styles.verifyBtn]
-                }
-                onPress={() => {
-                  saveQRImageToGalley();
-                }}>
-                <Ionicons name="download-outline" size={25} color="white" />
-                <Text style={styles.verifyBtnText}>Save</Text>
-              </TouchableOpacity>
             </View>
           </View>
+        )}
+        <View style={{ marginTop: 5 }}>
+          <TouchableOpacity
+            style={
+              Platform.OS === 'ios'
+                ? [styles.verifyBtn, { width: (width * 2) / 3 + 20 }]
+                : [styles.verifyBtn, { width: width * 2 / 3 + 20 }]
+            }
+            onPress={() => {
+              setModalVisible(true);
+            }}>
+            <Ionicons name="create-outline" size={25} color="white" />
+            <Text style={styles.verifyBtnText}>Create QRCode</Text>
+          </TouchableOpacity>
         </View>
-      )}
-      <View style={{ marginTop: 5 }}>
-        <TouchableOpacity
-          style={
-            Platform.OS === 'ios'
-              ? [styles.verifyBtn, { width: (width * 2) / 3 + 20 }]
-              : [styles.verifyBtn, { width: width * 2 / 3 + 20 }]
-          }
-          onPress={() => {
-            setModalVisible(true);
-          }}>
-          <Ionicons name="create-outline" size={25} color="white" />
-          <Text style={styles.verifyBtnText}>Create QRCode</Text>
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
+      </ScrollView>
+      : <ActivityIndicator size="large" color='green' style={styles.loading} />
   );
 };
 export default CreateHomeQR;
 
 const styles = StyleSheet.create({
+  loading: {
+    backgroundColor: 'white',
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
   container: {
     backgroundColor: 'rgba(255, 255, 255, 0.5)',
   },
