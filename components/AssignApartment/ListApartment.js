@@ -43,7 +43,6 @@ const ListApartment = () => {
     }
 
     const assignForm = (data) => {
-        console.log(data)
         setShowItem(!showItem)
         assignAPI
             .createFormAPI({
@@ -79,7 +78,7 @@ const ListApartment = () => {
             {list.length ? (
                 <FlatList
                     data={list}
-                    renderItem={({ item }) => <ApartmentItem title={item} showForm={showForm} />}
+                    renderItem={({ item }) => <ApartmentItem title={item} action={showForm} />}
                     keyExtractor={item => item.id}
                 />
             ) : (

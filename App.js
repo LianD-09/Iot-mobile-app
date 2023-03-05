@@ -6,6 +6,8 @@ import SignUpLayout from './components/Auth/SignUp';
 import Home from './components/Home/Home';
 import { Provider } from 'react-redux';
 import store from './app/store';
+import CreateHomeQR from './Screen/smartSocialScreen/QRCodeScreen';
+import AccessHistoryScreen from './components/userAccessNotification/AccessHistoryScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -20,12 +22,13 @@ export default function App() {
             options={{
               title: 'Sign in',
               headerStyle: {
-                backgroundColor: '#3A5BB3',
+                backgroundColor: '#ff5722',
               },
               headerTintColor: '#fff',
               headerTitleStyle: {
                 fontWeight: 'bold',
               },
+              headerShown: false,
             }}
           />
           <Stack.Screen
@@ -40,6 +43,7 @@ export default function App() {
               headerTitleStyle: {
                 fontWeight: 'bold', //Set Header text style
               },
+              headerShown: false,
             }}
           />
           <Stack.Screen
@@ -48,7 +52,35 @@ export default function App() {
             options={{
               title: 'Home', //Set Header Title
               headerStyle: {
-                backgroundColor: '#3A5BB3', //Set Header color
+                backgroundColor: '#ff5722', //Set Header color
+              },
+              headerTintColor: '#fff', //Set Header text color
+              headerTitleStyle: {
+                fontWeight: 'bold',
+              },
+            }}
+          />
+          <Stack.Screen
+            name="Create QRCode"
+            component={CreateHomeQR}
+            options={{
+              title: 'Create QRCode', //Set Header Title
+              headerStyle: {
+                backgroundColor: '#ff5722', //Set Header color
+              },
+              headerTintColor: '#fff', //Set Header text color
+              headerTitleStyle: {
+                fontWeight: 'bold',
+              },
+            }}
+          />
+          <Stack.Screen
+            name="AccessHistory"
+            component={AccessHistoryScreen}
+            options={{
+              title: 'Access History', //Set Header Title
+              headerStyle: {
+                backgroundColor: '#ff5722', //Set Header color
               },
               headerTintColor: '#fff', //Set Header text color
               headerTitleStyle: {

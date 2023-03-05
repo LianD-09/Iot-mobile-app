@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
-    userId: 0,
+    isChoosen: false,
     data: {},
 };
 
@@ -8,10 +8,11 @@ const apartmentSlice = createSlice({
     name: 'apartment',
     initialState,
     reducers: {
-        initiate: (state, action) => {
-            state.userId = action.payload;
+        initiate: (state) => {
+            return initialState;
         },
         setApartment: (state, action) => {
+            state.isChoosen = true;
             state.data = action.payload;
         },
     },
@@ -20,6 +21,6 @@ const apartmentSlice = createSlice({
 //reducer
 const apartmentReducer = apartmentSlice.reducer;
 
-export const apartmentDataSelector = state => state.apartmentReducer.data;
+export const apartmentDataSelector = state => state.apartmentReducer;
 export const { initiate, setApartment } = apartmentSlice.actions;
 export default apartmentReducer;

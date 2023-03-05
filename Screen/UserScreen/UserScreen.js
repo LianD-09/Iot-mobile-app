@@ -1,8 +1,8 @@
 import * as React from 'react';
 import {useWindowDimensions} from 'react-native';
-import {TabView, SceneMap} from 'react-native-tab-view';
-import User from '../User/User';
-import TodoList from '../Todo/TodoList';
+import {TabView, TabBar, SceneMap} from 'react-native-tab-view';
+import User from '../../components/User/User';
+import TodoList from '../../components/Todo/TodoList';
 
 const renderScene = SceneMap({
   first: User,
@@ -24,6 +24,7 @@ export default function UserScreen() {
       renderScene={renderScene}
       onIndexChange={setIndex}
       initialLayout={{width: layout.width}}
+      renderTabBar={props => <TabBar {...props} style={{backgroundColor: '#806962'}}/>}
     />
   );
 }

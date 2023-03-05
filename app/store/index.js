@@ -7,7 +7,7 @@ const store = configureStore({
   reducer: {
     todoReducer: todoReducer,
     userReducer: userReducer,
-    aparmentReducer: apartmentReducer,
+    apartmentReducer: apartmentReducer,
   },
 });
 //selector

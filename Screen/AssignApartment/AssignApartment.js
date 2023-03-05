@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
-import { SafeAreaView, Text, StyleSheet } from 'react-native';
+import { SafeAreaView, StyleSheet } from 'react-native';
 import ListApartment from '../../components/AssignApartment/ListApartment';
 
 const AssignApartment = ({ navigation }) => {

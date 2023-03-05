@@ -20,7 +20,7 @@ const ApartmentItem = ({ title, action }) => {
           }}>
           <Text style={styles.name}>{title.apartmentName}</Text>
           <Text>{'   - Code: ' + title.apartmentCode}</Text>
-          <Text>{'   - Address: ' + (title?.address ?? "Updating")}</Text>
+          <Text>{'   - Address: ' + (title?.apartmentAddress ?? "Updating")}</Text>
         </Pressable>
       </View>
     </View>

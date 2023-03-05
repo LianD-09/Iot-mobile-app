@@ -117,163 +117,179 @@ const CreateHomeQR = props => {
     setIsLoading(false);
   }, []);
   return (
-    <ScrollView
-      style={{
-        height: height,
-        backgroundColor: modalVisible ? '#dcdcdc' : 'rgba(255, 255, 255, 0.5)',
-      }}>
-      {/* <TabTitle title={'QR Code Generator'} {...props} /> */}
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
+      <ScrollView
+        style={{
+          height: height,
+          backgroundColor: modalVisible ? '#dcdcdc' : 'rgba(255, 255, 255, 0.5)',
         }}>
-        <View style={styles.centeredView}>
-          <Text
-            style={{
-              fontSize: 18,
-              color: 'black',
-              position: 'absolute',
-              top: 50,
-              marginHorizontal: 20,
-              fontWeight: '600',
-            }}>
-            Thiết lập tạo QR Code
-          </Text>
-          <View style={{ position: 'absolute', top: 100 }}>
-            <View>
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible);
+          }}>
+          <View style={styles.centeredView}>
+            <Text
+              style={{
+                fontSize: 18,
+                color: 'black',
+                position: 'absolute',
+                top: 50,
+                marginHorizontal: 20,
+                fontWeight: '600',
+              }}>
+              Thiết lập tạo QR Code
+            </Text>
+            <View style={{ position: 'absolute', top: 100 }}>
+              <View>
+                <Text
+                  style={{
+                    fontSize: 16,
+                    fontWeight: '500',
+                    marginTop: 0,
+                    color: 'white',
+                    fontStyle: 'italic',
+                  }}>
+                  {'12345'}
+                </Text>
+              </View>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                width: (width * 9) / 10,
+                marginTop: 0,
+              }}>
               <Text
                 style={{
-                  fontSize: 16,
-                  fontWeight: '500',
-                  marginTop: 0,
-                  color: 'white',
+                  color: 'grey',
+                  fontSize: 14,
+                  fontWeight: '600',
                   fontStyle: 'italic',
                 }}>
-                {'12345'}
+                15 phút
+              </Text>
+              <Text
+                style={{
+                  color: 'grey',
+                  fontSize: 14,
+                  fontWeight: '600',
+                  fontStyle: 'italic',
+                }}>
+                120 phút
               </Text>
             </View>
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              width: (width * 9) / 10,
-              marginTop: 0,
-            }}>
-            <Text
-              style={{
-                color: 'grey',
-                fontSize: 14,
-                fontWeight: '600',
-                fontStyle: 'italic',
-              }}>
-              15 phút
-            </Text>
-            <Text
-              style={{
-                color: 'grey',
-                fontSize: 14,
-                fontWeight: '600',
-                fontStyle: 'italic',
-              }}>
-              120 phút
-            </Text>
-          </View>
-          <Slider
-            style={{ width: (width * 8) / 10, height: 40 }}
-            minimumValue={15}
-            maximumValue={120}
-            step={15}
-            value={timelive}
-            minimumTrackTintColor="#40afff"
-            maximumTrackTintColor="#c2e7ff"
-            thumbStyle={{ height: 20, width: 20, backgroundColor: '#339FD9' }}
-            thumbTintColor="#339FD9"
-            onSlidingComplete={value => setTimeLive(value)}
-          />
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              marginTop: 12,
-              width: (width * 8) / 10,
-            }}>
-            {[0, 1, 2, 3, 4, 5, 6, 7].map(item => {
-              return (
-                <View
-                  key={item.toString()}
-                  style={{
-                    height: 6,
-                    borderColor: 're',
-                    borderWidth: 1,
-                  }}
-                />
-              );
-            })}
-          </View>
-          <View style={{ marginTop: 50 }}>
-            <Text style={{ fontSize: 16, fontStyle: 'italic' }}>
-              Thời gian tồn tại:{' '}
-              <Text style={{ fontWeight: '500', color: '#339FD9' }}>
-                {timelive} phút
-              </Text>
-            </Text>
-          </View>
-          <View
-            style={{ flexDirection: 'row', position: 'absolute', bottom: 80 }}>
-            <TouchableOpacity
-              style={[
-                styles.verifyBtn,
-                { backgroundColor: 'red', marginRight: 20 },
-              ]}
-              onPress={() => {
-                setModalVisible(false);
-              }}>
-              <Text style={styles.verifyBtnText}>Huỷ</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.verifyBtn}
-              onPress={() => {
-                setIsLoading(true);
-                setModalVisible(false);
-                // dispatch(
-                //   actions.getQrCodeAcceptControl({
-                //     timeLife: timelive,
-                //     phoneNumber: phoneNumber,
-                //   }),
-                // );
-              }}>
-              <Text style={styles.verifyBtnText}>Tạo mã QR</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
-      {/* Content */}
-      {isLoading ? null : (
-        <View style={{ marginTop: 20, flex: 1 }}>
-          <View style={{ alignSelf: 'center' }}>
-            <Text style={{ fontSize: 17, color: 'black' }}>
-              Tạo mã QR thành công
-            </Text>
-            <Text style={{ fontSize: 17, color: 'black' }}>
-              Mã QR có hiệu lực trong:{' '}
-              <Text style={{ color: '#339FD9' }}>{timelive} phút</Text>
-            </Text>
-          </View>
-          <View style={{ alignSelf: 'center', marginTop: 0 }}>
-            <QRCode
-              value={qrValue ? qrValue : 'fgyhdtfghf'}
-              //   getRef={c => (this.svg = c)}
-              size={(width * 4) / 4}
-              quietZone={width / 4}
+            <Slider
+              style={{ width: (width * 8) / 10, height: 40 }}
+              minimumValue={15}
+              maximumValue={120}
+              step={15}
+              value={timelive}
+              minimumTrackTintColor="#40afff"
+              maximumTrackTintColor="#c2e7ff"
+              thumbStyle={{ height: 20, width: 20, backgroundColor: '#339FD9' }}
+              thumbTintColor="#339FD9"
+              onSlidingComplete={value => setTimeLive(value)}
             />
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                marginTop: 12,
+                width: (width * 8) / 10,
+              }}>
+              {[0, 1, 2, 3, 4, 5, 6, 7].map(item => {
+                return (
+                  <View
+                    key={item.toString()}
+                    style={{
+                      height: 6,
+                      borderColor: 're',
+                      borderWidth: 1,
+                    }}
+                  />
+                );
+              })}
+            </View>
+            <View style={{ marginTop: 50 }}>
+              <Text style={{ fontSize: 16, fontStyle: 'italic' }}>
+                Thời gian tồn tại:{' '}
+                <Text style={{ fontWeight: '500', color: '#339FD9' }}>
+                  {timelive} phút
+                </Text>
+              </Text>
+            </View>
+            <View
+              style={{ flexDirection: 'row', position: 'absolute', bottom: 80 }}>
+              <TouchableOpacity
+                style={[
+                  styles.verifyBtn,
+                  { backgroundColor: 'red', marginRight: 20 },
+                ]}
+                onPress={() => {
+                  setModalVisible(false);
+                }}>
+                <Text style={styles.verifyBtnText}>Huỷ</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.verifyBtn}
+                onPress={() => {
+                  setIsLoading(true);
+                  setModalVisible(false);
+                  // dispatch(
+                  //   actions.getQrCodeAcceptControl({
+                  //     timeLife: timelive,
+                  //     phoneNumber: phoneNumber,
+                  //   }),
+                  // );
+                }}>
+                <Text style={styles.verifyBtnText}>Tạo mã QR</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-          <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
-            {Platform.OS === 'android' ? (
-              <View style={{ marginTop: 5, marginEnd: 20 }}>
+        </Modal>
+        {/* Content */}
+        {isLoading ? null : (
+          <View style={{ marginVertical: 20, flex: 1 }}>
+            <View style={{ alignSelf: 'center' }}>
+              <Text style={{ fontSize: 17, color: 'black' }}>
+                Tạo mã QR thành công
+              </Text>
+              <Text style={{ fontSize: 17, color: 'black' }}>
+                Mã QR có hiệu lực trong:{' '}
+                <Text style={{ color: '#339FD9' }}>{timelive} phút</Text>
+              </Text>
+            </View>
+            <View style={{ alignSelf: 'center', marginTop: 10 }}>
+              <QRCode
+                value={qrValue ? qrValue : 'fgyhdtfghf'}
+                //   getRef={c => (this.svg = c)}
+                size={(width * 4) / 5}
+                quietZone={width / 9}
+              />
+            </View>
+            <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
+              {Platform.OS === 'android' ? (
+                <View style={{ marginTop: 5, marginEnd: 20 }}>
+                  <TouchableOpacity
+                    style={
+                      Platform.OS === 'ios'
+                        ? [styles.verifyBtn, { width: (width * 2) / 3 + 20 }]
+                        : [styles.verifyBtn]
+                    }
+                    onPress={() => {
+                      // setModalVisible(false);
+                      // props.navigation.goBack();
+                      handleShare();
+                    }}>
+                    <Ionicons name="share-outline" size={25} color="white" />
+                    <Text style={styles.verifyBtnText}>Share</Text>
+                  </TouchableOpacity>
+                </View>
+              ) : null}
+              <View style={{ marginTop: 5 }}>
                 <TouchableOpacity
                   style={
                     Platform.OS === 'ios'
@@ -281,48 +297,31 @@ const CreateHomeQR = props => {
                       : [styles.verifyBtn]
                   }
                   onPress={() => {
-                    // setModalVisible(false);
-                    // props.navigation.goBack();
-                    handleShare();
+                    saveQRImageToGalley();
                   }}>
-                  <Ionicons name="share-outline" size={25} color="white" />
-                  <Text style={styles.verifyBtnText}>Share</Text>
+                  <Ionicons name="download-outline" size={25} color="white" />
+                  <Text style={styles.verifyBtnText}>Save</Text>
                 </TouchableOpacity>
               </View>
-            ) : null}
+            </View>
             <View style={{ marginTop: 5 }}>
               <TouchableOpacity
                 style={
                   Platform.OS === 'ios'
                     ? [styles.verifyBtn, { width: (width * 2) / 3 + 20 }]
-                    : [styles.verifyBtn]
+                    : [styles.verifyBtn, { width: width * 2 / 3 + 20 }]
                 }
                 onPress={() => {
-                  saveQRImageToGalley();
+                  // props.navigation.goBack();
+                  setModalVisible(true);
                 }}>
-                <Ionicons name="download-outline" size={25} color="white" />
-                <Text style={styles.verifyBtnText}>Save</Text>
+                <Ionicons name="create-outline" size={25} color="white" />
+                <Text style={styles.verifyBtnText}>Tạo QR</Text>
               </TouchableOpacity>
             </View>
           </View>
-          <View style={{ marginTop: 5 }}>
-            <TouchableOpacity
-              style={
-                Platform.OS === 'ios'
-                  ? [styles.verifyBtn, { width: (width * 2) / 3 + 20 }]
-                  : [styles.verifyBtn, { width: width * 2 / 3 + 20}]
-              }
-              onPress={() => {
-                // props.navigation.goBack();
-                setModalVisible(true);
-              }}>
-              <Ionicons name="create-outline" size={25} color="white" />
-              <Text style={styles.verifyBtnText}>Tạo QR</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      )}
-    </ScrollView>
+        )}
+      </ScrollView>
   );
 };
 export default CreateHomeQR;

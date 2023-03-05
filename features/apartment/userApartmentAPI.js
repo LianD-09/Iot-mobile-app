@@ -6,7 +6,7 @@ const userEndPoint = apiEndPoint + '/UserApartment';
 export const userApartmentAPI = {
   getUserAparmentAPI: (params, token) => {
     return axiosRequest(
-      userEndPoint + `/GetApartments`,
+      userEndPoint + `/UserGetApartments`,
       axiosMethod.GET,
       token,
       params,
@@ -15,7 +15,7 @@ export const userApartmentAPI = {
   },
   getAnUserAparmentAPI: (id, token) => {
     return axiosRequest(
-      userEndPoint + `/GetApartments/${id}`,
+      userEndPoint + `/UserGetAnApartment/${id}`,
       axiosMethod.GET,
       token,
       null,
