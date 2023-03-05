@@ -3,8 +3,6 @@ import React, { useState } from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {View, Text, Image, StyleSheet} from 'react-native';
 import UserScreen from '../../Screen/UserScreen/UserScreen';
-// import {SmartSocialScreen} from '../../Screen/smartSocialScreen/SmartSocialScreen';
-// import CreateHomeQR from '../../Screen/smartSocialScreen/QRCodeScreen';
 import AssignApartment from '../../Screen/AssignApartment/AssignApartment';
 import AccessFeatures from '../../Screen/AccessFeatures/AccessFeatures';
 import AntDesign from 'react-native-vector-icons/AntDesign'
@@ -58,8 +56,7 @@ export default function Home() {
         component={AssignApartment}
         options={{
           showLabel: false,
-          headerShown: false,
-          // tabBarStyle: {display: 'none'},
+          // headerShown: false,
           tabBarIcon: ({focused}) => (
             <View style={[styles.tabContainer, {flex : 1}]}>
               <Image
@@ -82,7 +79,7 @@ export default function Home() {
             backgroundColor: '#ff5722', //Set Header color
           },
           headerTintColor: '#fff', //Set Header text color
-          headerTitleAlign: 'center',
+          headerTitleAlign: 'flex-start',
           headerTitleStyle: {
             fontWeight: 'bold', //Set Header text style
           },

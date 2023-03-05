@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import {
-  SafeAreaView,
+  View,
   FlatList,
   Text,
   StyleSheet,
@@ -12,8 +12,9 @@ import { userDataSelector } from '../../features/authentication/userSlice';
 import ApartmentItem from './ApartmentItem';
 import { userApartmentAPI } from '../../features/apartment/userApartmentAPI';
 import { setApartment } from '../../features/apartment/aparmentSlice';
+import TabTitle from '../TabTiltle/TabTitle';
 
-const UserListApartment = () => {
+const UserListApartment = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [list, setList] = useState([]);
@@ -31,12 +32,12 @@ const UserListApartment = () => {
   }, [user]);
 
   const displayApartment = data => {
-    console.log(data)
+    navigation.navigate('Apartment')
     dispatch(setApartment(data));
   };
-
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
+      {/* <TabTitle title={'alsfjl'} {...props} /> */}
       <Text style={styles.title}>My Apartments</Text>
       {list.length ? (
         <FlatList
@@ -49,7 +50,7 @@ const UserListApartment = () => {
       ) : (
         <ActivityIndicator size="large" style={styles.loading} />
       )}
-    </SafeAreaView>
+    </View>
   );
 };
 

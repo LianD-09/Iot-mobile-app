@@ -38,7 +38,6 @@ const LoginLayout = ({ navigation }) => {
         const loginData = responseJson.data.data;
         setIsLoading(false);
         if (success) {
-          Alert.alert("Sign in successful!");
           navigation.navigate('Home', { name: 'Home' });
           userAPI
             .getUserAPI({

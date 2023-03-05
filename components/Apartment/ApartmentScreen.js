@@ -10,11 +10,12 @@ import {
 } from 'react-native';
 import { useSelector } from 'react-redux';
 import { apartmentDataSelector } from '../../features/apartment/aparmentSlice';
+import TabTitle from '../TabTiltle/TabTitle';
 import ApartmentFeatures from './ApartmentFeatures';
 
 const { height, width } = Dimensions.get('screen');
 
-const ApartmentScreen = ({ navigation }) => {
+const ApartmentScreen = (props) => {
     const apartment = useSelector(apartmentDataSelector)
     const data = apartment.data;
     const [history, setHistory] = useState(false);
@@ -22,6 +23,7 @@ const ApartmentScreen = ({ navigation }) => {
 
     return (
         <SafeAreaView style={styles.container}>
+            {/* <TabTitle title={'alsfjl'} {...props} /> */}
             <Image
                 style={styles.image}
                 source={require('../../assets/Login/Logo.png')}
