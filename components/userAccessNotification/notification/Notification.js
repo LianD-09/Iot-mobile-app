@@ -64,7 +64,6 @@ const Notification = () => {
         apartmentCode: apartment.data?.apartmentCode,
       }, user.token)
       .then(res => {
-        console.log(res.data?.data)
         setNotifications(res.data?.data);
       })
       .catch(err => {
