@@ -131,11 +131,11 @@ const CreateHomeQR = props => {
   }
 
   const createQR = () => {
-    setIsCreating(true);
     if (!accessCount && !accessTime) {
       Alert.alert('You must select and configure at least one field!');
     }
     else {
+      setIsCreating(true);
       qrcodeAPI
         .createQRCodeAPI({
           apartmentCode: apartment.data.apartmentCode,
