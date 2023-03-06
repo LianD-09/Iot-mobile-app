@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
+  PermissionsAndroid,
   StyleSheet,
   Modal,
   Dimensions,
@@ -14,7 +15,7 @@ import {
 import { Slider } from 'react-native-elements';
 import { ActivityIndicator, Checkbox } from 'react-native-paper';
 import QRCode from 'react-native-qrcode-svg';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Share from 'react-native-share';
 import { CameraRoll } from '@react-native-camera-roll/camera-roll';
 import RNFS from 'react-native-fs';
@@ -28,10 +29,9 @@ import { TextInput } from 'react-native';
 const { width, height } = Dimensions.get('screen');
 
 const CreateHomeQR = props => {
-  const dispatch = useDispatch();
   const apartment = useSelector(apartmentDataSelector);
   const user = useSelector(userDataSelector);
-
+  const [svg, setSvg]= useState('');
   const [modalVisible, setModalVisible] = useState(true);
   const [timelive, setTimelive] = useState(60);
   const [count, setCount] = useState(1);
@@ -47,53 +47,53 @@ const CreateHomeQR = props => {
   };
 
   const saveQRImageToGalley = async () => {
-    // if (Platform.OS === 'android') {
-    //   var isReadGranted = await PermissionsAndroid.request(
-    //     PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-    //   );
-    // }
-    // if (
-    //   isReadGranted === PermissionsAndroid.RESULTS.GRANTED &&
-    //   Platform.OS === 'android'
-    // ) {
-    //   //const dirs = RNFetchBlob.fs.dirs;
-    //   this.svg.toDataURL(data => {
-    //     RNFS.writeFile(
-    //       RNFS.CachesDirectoryPath + '/doji-qrcode.png',
-    //       data,
-    //       'base64',
-    //     )
-    //       .then(success => {
-    //         Alert.alert('Đã lưu QR code vào thư viện thành công!');
-    //         return CameraRoll.save(
-    //           RNFS.CachesDirectoryPath + '/doji-qrcode.png',
-    //           'photo',
-    //         );
-    //       })
-    //       .catch(err => {
-    //         console.log('Lưu ảnh QR code lỗi: ', err);
-    //       });
-    //   });
-    // }
-    // if (Platform.OS === 'ios') {
-    //   this.svg.toDataURL(data => {
-    //     RNFS.writeFile(
-    //       RNFS.CachesDirectoryPath + '/doji-qrcode.png',
-    //       data,
-    //       'base64',
-    //     )
-    //       .then(success => {
-    //         Alert.alert('Đã lưu QR code vào thư viện thành công!');
-    //         return CameraRoll.save(
-    //           RNFS.CachesDirectoryPath + '/doji-qrcode.png',
-    //           'photo',
-    //         );
-    //       })
-    //       .catch(err => {
-    //         console.log('Lưu ảnh QR code lỗi: ', err);
-    //       });
-    //   });
-    // }
+    if (Platform.OS === 'android') {
+      var isReadGranted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+      );
+    }
+    if (
+      isReadGranted === PermissionsAndroid.RESULTS.GRANTED &&
+      Platform.OS === 'android'
+    ) {
+      //const dirs = RNFetchBlob.fs.dirs;
+      svg.toDataURL(data => {
+        RNFS.writeFile(
+          RNFS.CachesDirectoryPath + '/doji-qrcode.png',
+          data,
+          'base64',
+        )
+          .then(success => {
+            Alert.alert('Save QR Code to device successful!');
+            return CameraRoll.save(
+              RNFS.CachesDirectoryPath + '/doji-qrcode.png',
+              'photo',
+            );
+          })
+          .catch(err => {
+            console.log('Save QR code error: ', err);
+          });
+      });
+    }
+    if (Platform.OS === 'ios') {
+      svg.toDataURL(data => {
+        RNFS.writeFile(
+          RNFS.CachesDirectoryPath + '/doji-qrcode.png',
+          data,
+          'base64',
+        )
+          .then(success => {
+            Alert.alert('Save QR Code to device successful!');
+            return CameraRoll.save(
+              RNFS.CachesDirectoryPath + '/doji-qrcode.png',
+              'photo',
+            );
+          })
+          .catch(err => {
+            console.log('Save QR code error: ', err);
+          });
+      });
+    }
   };
 
   // if (Platform.OS === 'ios') {
@@ -380,7 +380,7 @@ const CreateHomeQR = props => {
             <View style={{ alignSelf: 'center', marginVertical: 10 }}>
               <QRCode
                 value={qrValue ? qrValue : 'fgyhdtfghf'}
-                //   getRef={c => (this.svg = c)}
+                getRef={c => setSvg(c)}
                 size={(width * 4) / 5}
                 quietZone={width / 9}
               />
