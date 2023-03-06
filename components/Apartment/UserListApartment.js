@@ -12,12 +12,12 @@ import { userDataSelector } from '../../features/authentication/userSlice';
 import ApartmentItem from './ApartmentItem';
 import { userApartmentAPI } from '../../features/apartment/userApartmentAPI';
 import { setApartment } from '../../features/apartment/aparmentSlice';
-import TabTitle from '../TabTiltle/TabTitle';
 
 const UserListApartment = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [list, setList] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const user = useSelector(userDataSelector);
 
   useEffect(() => {
@@ -25,21 +25,23 @@ const UserListApartment = (props) => {
       .getUserAparmentAPI({ userId: user.id }, user.token)
       .then(res => {
         setList(res.data.data);
+        setIsLoading(false);
       })
       .catch(err => {
         console.log(err);
+        setIsLoading(false);
       });
   }, [user]);
 
   const displayApartment = data => {
-    navigation.navigate('Apartment')
+    navigation.navigate('Apartment');
     dispatch(setApartment(data));
   };
   return (
     <View style={styles.container}>
       {/* <TabTitle title={'alsfjl'} {...props} /> */}
       <Text style={styles.title}>My Apartments</Text>
-      {list.length ? (
+      {!isLoading ? (
         <FlatList
           data={list}
           renderItem={({ item }) => (

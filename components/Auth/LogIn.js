@@ -61,9 +61,9 @@ const LoginLayout = ({ navigation }) => {
   };
 
   return (
-    isLoading ?
-      <ActivityIndicator size="large" color='green' style={styles.loading}/> :
-      <View style={styles.container}>
+    isLoading
+      ? <ActivityIndicator size="large" color='green' style={styles.loading} />
+      : <View style={styles.container}>
         <Image
           style={styles.image}
           source={require('../../assets/Login/Logo.png')}

@@ -56,7 +56,7 @@ export default function Home() {
         component={AssignApartment}
         options={{
           showLabel: false,
-          // headerShown: false,
+          headerShown: false,
           tabBarIcon: ({focused}) => (
             <View style={[styles.tabContainer, {flex : 1}]}>
               <Image

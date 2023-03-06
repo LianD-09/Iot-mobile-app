@@ -13,4 +13,13 @@ export const assignAPI = {
       data,
     );
   },
+  getUserFormsAPI: (params, token) => {
+    return axiosRequest(
+      userEndPoint + `/UserGetVerifyUserForms`,
+      axiosMethod.GET,
+      token,
+      params,
+      null,
+    );
+  },
 };

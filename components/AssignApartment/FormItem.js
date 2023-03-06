@@ -1,15 +1,17 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, { useState } from 'react';
+import React from 'react';
 import { Dimensions } from 'react-native';
+import { format } from 'date-fns';
 import {
-  Modal,
   StyleSheet,
   Text,
   Pressable,
   View,
 } from 'react-native';
 
-const ApartmentItem = ({ title, action }) => {
+import { formState } from './formState';
+
+const FormItem = ({ title, action }) => {
   return (
     <View style={styles.itemContainer}>
       <View style={styles.item}>
@@ -18,16 +20,16 @@ const ApartmentItem = ({ title, action }) => {
           onPress={() => {
             action(title);
           }}>
-          <Text style={styles.name}>{title.apartmentName}</Text>
-          <Text>{'   - Code: ' + title.apartmentCode}</Text>
-          <Text>{'   - Address: ' + (title?.address ?? "Updating")}</Text>
+          <Text style={styles.name}>{title.apartmentCode}</Text>
+          <Text>{'   - State: ' + formState[title.state]}</Text>
+          <Text>{'   - Time: ' + format(new Date(title.creationTime), 'HH:mm:ss - dd/MM/yyyy')}</Text>
         </Pressable>
       </View>
     </View>
   );
 };
 
-export default ApartmentItem;
+export default FormItem;
 
 const styles = StyleSheet.create({
   itemContainer: {
@@ -54,9 +56,6 @@ const styles = StyleSheet.create({
     padding: 15,
     marginVertical: 8,
     marginHorizontal: 10,
-  },
-  title: {
-    fontSize: 32,
   },
   name: {
     fontSize: 15,

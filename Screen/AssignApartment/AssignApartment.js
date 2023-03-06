@@ -1,13 +1,46 @@
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
-import ListApartment from '../../components/AssignApartment/ListApartment';
+import CreateForm from '../../components/AssignApartment/CreateForm';
+import ListForm from '../../components/AssignApartment/ListForm';
 
-const AssignApartment = ({ navigation }) => {
+const Stack = createNativeStackNavigator();
+
+const AssignApartment = (props) => {
 
   return (
-    <SafeAreaView style={styles.container} >
-      <ListApartment />
-    </SafeAreaView>
+    <Stack.Navigator >
+      <Stack.Screen
+        name="ListForm"
+        component={ListForm}
+        options={{
+          title: 'My List Form',
+          headerStyle: {
+            backgroundColor: '#ff5722',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+          // headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="CreateForm"
+        component={CreateForm}
+        options={{
+          title: 'Create Form',
+          headerStyle: {
+            backgroundColor: '#ff5722',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+          // headerShown: false,
+        }}
+      />
+    </Stack.Navigator>
   );
 }
 

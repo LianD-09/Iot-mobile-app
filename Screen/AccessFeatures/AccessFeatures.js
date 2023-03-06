@@ -51,33 +51,33 @@ const AccessFeatures = (props) => {
         }}
       />
       <Stack.Screen
-            name="Create QRCode"
-            component={CreateHomeQR}
-            options={{
-              title: 'Create QRCode', //Set Header Title
-              headerStyle: {
-                backgroundColor: '#ff5722', //Set Header color
-              },
-              headerTintColor: '#fff', //Set Header text color
-              headerTitleStyle: {
-                fontWeight: 'bold',
-              },
-            }}
-          />
-          <Stack.Screen
-            name="AccessHistory"
-            component={AccessHistoryScreen}
-            options={{
-              title: 'Access History', //Set Header Title
-              headerStyle: {
-                backgroundColor: '#ff5722', //Set Header color
-              },
-              headerTintColor: '#fff', //Set Header text color
-              headerTitleStyle: {
-                fontWeight: 'bold',
-              },
-            }}
-          />
+        name="Create QRCode"
+        component={CreateHomeQR}
+        options={{
+          title: 'Create QRCode', //Set Header Title
+          headerStyle: {
+            backgroundColor: '#ff5722', //Set Header color
+          },
+          headerTintColor: '#fff', //Set Header text color
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }}
+      />
+      <Stack.Screen
+        name="AccessHistory"
+        component={AccessHistoryScreen}
+        options={{
+          title: 'Access History', //Set Header Title
+          headerStyle: {
+            backgroundColor: '#ff5722', //Set Header color
+          },
+          headerTintColor: '#fff', //Set Header text color
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }}
+      />
     </Stack.Navigator>
   );
 }

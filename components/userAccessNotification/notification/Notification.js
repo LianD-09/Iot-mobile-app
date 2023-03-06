@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { userDataSelector } from '../../../features/authentication/userSlice';
 import {
   SafeAreaView,
-  View,
   FlatList,
   StyleSheet,
-  Text,
   StatusBar,
   ActivityIndicator,
 } from 'react-native';
@@ -57,6 +54,7 @@ const Notification = () => {
   const user = useSelector(userDataSelector);
   const apartment = useSelector(apartmentDataSelector);
   const [notifications, setNotifications] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     accessHistoryAPI
@@ -65,15 +63,17 @@ const Notification = () => {
       }, user.token)
       .then(res => {
         setNotifications(res.data?.data);
+        setIsLoading(false);
       })
       .catch(err => {
         console.log(err)
+        setIsLoading(false);
       })
     // setTimeout(() => { }, 500);
   }, []);
   return (
     <SafeAreaView style={styles.container}>
-      {notifications.length ? (
+      {!isLoading ? (
         <FlatList
           data={notifications}
           renderItem={RenderNotificationItem}
