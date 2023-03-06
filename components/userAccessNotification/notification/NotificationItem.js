@@ -13,6 +13,7 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import guestImg from './dal.jpg';
+import { messageType } from '../messageType';
 
 const NotificationItem = ({ title }) => {
   const [showEvent, setShowEvent] = useState(false);
@@ -25,7 +26,7 @@ const NotificationItem = ({ title }) => {
         <Pressable
           style={[styles.button, styles.buttonOpen]}
           onPress={() => setShowEvent(true)}>
-          <Text style={styles.name}>{'- ' + title.mqttType}</Text>
+          <Text style={styles.name}>{'- ' + messageType[title.mqttType]}</Text>
           <Text>{'   - Name: ' + title.visitorName}</Text>
           <Text>{'   - Time: ' + time}</Text>
         </Pressable>

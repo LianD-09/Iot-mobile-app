@@ -4,7 +4,7 @@ import { SafeAreaView, StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
 import ApartmentScreen from '../../components/Apartment/ApartmentScreen';
 import UserListApartment from '../../components/Apartment/UserListApartment';
-import AccessHistoryScreen from '../../components/userAccessNotification/AccessHistoryScreen';
+import AccessHistoryScreen from '../AccessHistory/AccessHistoryScreen';
 import { apartmentDataSelector } from '../../features/apartment/aparmentSlice';
 import CreateHomeQR from '../QRCode/QRCodeScreen';
 

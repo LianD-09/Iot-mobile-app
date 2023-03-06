@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 import { useSelector } from 'react-redux';
 import { apartmentDataSelector } from '../../features/apartment/aparmentSlice';
-import TabTitle from '../TabTiltle/TabTitle';
 import ApartmentFeatures from './ApartmentFeatures';
 
 const { height, width } = Dimensions.get('screen');
