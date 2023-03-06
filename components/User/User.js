@@ -35,19 +35,6 @@ const User = () => {
 
   useEffect(() => {
     let token = userData.token;
-    // async function fetchUserInfo() {
-    //   const data = await 
-    //     userAPI
-    //     .getUserAPI({
-    //       accountId: userData.accountId
-    //     }, token)
-    //     .then(response => {
-    //       return response.data.data;
-    //     })
-    //     .catch(error => console.log(error));
-    //   setUserInformation({...userData});
-    // }
-    // fetchUserInfo();
     setUserInformation({ ...userData });
   }, [userData.token]);
 
