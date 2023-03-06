@@ -139,7 +139,7 @@ const CreateHomeQR = props => {
       qrcodeAPI
         .createQRCodeAPI({
           apartmentCode: apartment.data.apartmentCode,
-          creatorUserId: apartment.userId,
+          creatorUserId: apartment.data.userId,
           maxCount: accessCount ? count : 0,
           maxMinute: accessTime ? timelive : 0,
           visitorName: visitor,

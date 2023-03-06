@@ -20,7 +20,7 @@ import { assignAPI } from '../../features/assign/assignAPI';
 import { formState } from './formState';
 import { Dimensions } from 'react-native';
 
-const ListForm = () => {
+const ListForm = ({ route }) => {
     const navigation = useNavigation();
     const [list, setList] = useState([]);
     const user = useSelector(userDataSelector);
@@ -28,7 +28,11 @@ const ListForm = () => {
     const [form, setForm] = useState({})
     const [isLoading, setIsLoading] = useState(true);
 
-    useEffect(() => {
+
+    const createFormFromModel = () => {
+        getUserFunction();
+    }
+    const getUserFunction = () => {
         assignAPI
             .getUserFormsAPI({
                 userId: user.id,
@@ -40,6 +44,10 @@ const ListForm = () => {
             .catch(err => {
                 console.log(err)
             })
+    }
+
+    useEffect(() => {
+        getUserFunction();
     }, [user])
 
     const showForm = (data) => {
@@ -75,7 +83,7 @@ const ListForm = () => {
                             backgroundColor: '#339FD9',
                         }}
                         onPress={() => {
-                            navigation.navigate('CreateForm', { listForm: list })
+                            navigation.navigate('CreateForm', { listForm: list, createFormFromModel: createFormFromModel });
                         }}>
                         <Text style={styles.textStyle}>Assign New Apartment</Text>
                     </Pressable>

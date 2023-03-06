@@ -45,7 +45,7 @@ const CreateForm = ({ route, navigation }) => {
             setCode('');
             return Alert.alert('Select apartment before assign!');
         }
-        if (listFormCode.findIndex(ele => (ele.apartmentCode == code) && (ele.state !== 3)) !== -1){
+        if (listFormCode.findIndex(ele => (ele.apartmentCode == code) && (ele.state !== 3)) !== -1) {
             setCode('');
             return Alert.alert('You have been assign this apartment before!');
         }
@@ -67,6 +67,7 @@ const CreateForm = ({ route, navigation }) => {
                 if (success) {
                     Alert.alert("Create form successful!");
                     navigation.navigate('ListForm');
+                    route.params?.createFormFromModel();
                 }
                 else {
                     Alert.alert("Create form failed!");
@@ -139,7 +140,10 @@ const CreateForm = ({ route, navigation }) => {
                         }}>
                         <Pressable
                             style={[styles.formBtn, { backgroundColor: 'red' }]}
-                            onPress={() => navigation.goBack()}>
+                            onPress={() => {
+                                navigation.goBack();
+                                route.params?.createFormFromModel();
+                            }}>
                             <Text style={styles.textStyle}>Back</Text>
                         </Pressable>
                         <Pressable

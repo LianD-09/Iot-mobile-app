@@ -59,15 +59,7 @@ export default function Home() {
           headerShown: false,
           tabBarIcon: ({focused}) => (
             <View style={[styles.tabContainer, {flex : 1}]}>
-              <Image
-                source={require('../../assets/Home/QRCode.png')}
-                resizeMode="contain"
-                style={{
-                  width: 30,
-                  height: 30,
-                  tintColor: focused ? '#ff5722' : '#a9a9a9',
-                }}
-              />
+              <AntDesign size={30} name="antdesign" color={focused ? '#ff5722' : '#a9a9a9'}/>
               <Text
                 style={{color: focused ? '#ff5722' : '#a9a9a9', fontSize: 12}}>
                 Assign Apartment
