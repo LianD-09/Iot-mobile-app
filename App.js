@@ -1,11 +1,14 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
+import { LogBox } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginLayout from './components/Auth/LogIn';
 import SignUpLayout from './components/Auth/SignUp';
 import Home from './components/Home/Home';
 import { Provider } from 'react-redux';
 import store from './app/store';
+
+LogBox.ignoreAllLogs();
 
 const Stack = createNativeStackNavigator();
 

@@ -10,7 +10,7 @@ const UserInfoItem = ({ labelTitle, setInformation, infoTitle, isEdit }) => {
       <Text style={styles.labelTitle}>{labelTitle}</Text>
       <TextInput
         style={styles.infoTitle}
-        underlineColor="transparent"
+        underineColor="transparent"
         onChangeText={v => {
           setInformation(v);
         }}
