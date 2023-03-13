@@ -36,7 +36,7 @@ const User = () => {
   useEffect(() => {
     let token = userData.token;
     setUserInformation({ ...userData });
-  }, [userData.token]);
+  }, [userData?.token]);
 
   const updateInformation = (data) => {
     setUserInformation({ ...userInformation, ...data })

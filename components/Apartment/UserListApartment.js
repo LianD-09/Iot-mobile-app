@@ -31,7 +31,7 @@ const UserListApartment = (props) => {
         console.log(err);
         setIsLoading(false);
       });
-  }, [user]);
+  }, [user?.token]);
 
   const displayApartment = data => {
     navigation.navigate('Apartment');

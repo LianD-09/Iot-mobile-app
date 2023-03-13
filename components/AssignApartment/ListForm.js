@@ -48,7 +48,7 @@ const ListForm = ({ route }) => {
 
     useEffect(() => {
         getUserFunction();
-    }, [user])
+    }, [user?.token])
 
     const showForm = (data) => {
         setForm(data);
